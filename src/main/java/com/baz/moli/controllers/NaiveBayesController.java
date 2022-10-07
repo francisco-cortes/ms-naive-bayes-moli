@@ -1,11 +1,12 @@
 package com.baz.moli.controllers;
 
-import com.baz.excepciones.DtoExcepcion;
-import com.baz.moli.daos.FrecuenciasDao;
 import com.baz.moli.dtos.EstadoResponseDto;
 import com.baz.moli.dtos.NaiveBayesRequestDto;
 import com.baz.moli.dtos.NaiveBayesResponseDto;
+import com.baz.moli.exception.ErrorInternoException;
+import com.baz.moli.services.CalculoNaiveBayesService;
 import com.baz.moli.services.MonitoreoService;
+import com.baz.moli.utilis.Constantes;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
@@ -17,7 +18,6 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
 
 /**
  * <b>ModuloNaiveBayesController</b>
@@ -36,7 +36,7 @@ public class NaiveBayesController {
   private MonitoreoService monitoreoService;
 
   @Inject
-  private FrecuenciasDao frecuenciasDao;
+  private CalculoNaiveBayesService calculoNaiveBayesService;
 
   /**
    * <b>naiveBayes</b>
@@ -51,9 +51,29 @@ public class NaiveBayesController {
     summary = "Metodo que retorna un posible tipo de nombre utilizando probabilidades naiveBayes")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response naiveBayes(@RequestBody NaiveBayesRequestDto request) throws IOException {
-    //NaiveBayesResponseDto respuestaNb = calculoNaiveBayes.buscarFrecuencias(request);
-    return Response.ok().entity(frecuenciasDao.obtenerFrecuencias("jose")).build();
+  @APIResponses(value =
+    {
+      @APIResponse(
+        responseCode = Constantes.HTTP_200,
+        description = "Respuesta Controlada",
+        content = @Content(mediaType = "application/json",
+          schema =  @Schema(implementation = NaiveBayesResponseDto.class))),
+      @APIResponse(
+        responseCode = Constantes.HTTP_500,
+        description = "Error Interno en la aplicación",
+        content = @Content(mediaType = "application/json",
+          schema =  @Schema(implementation = ErrorInternoException.class))),
+
+    })
+  public Response naiveBayes(@RequestBody NaiveBayesRequestDto request){
+    /*
+    modelo de datos con la salida
+     */
+    NaiveBayesResponseDto respuestaNb = calculoNaiveBayesService.naiveBayes(request);
+    /*
+    retorna el modelo como entidad para parseo como Json
+     */
+    return Response.ok().entity(respuestaNb).build();
   }
 
   /**

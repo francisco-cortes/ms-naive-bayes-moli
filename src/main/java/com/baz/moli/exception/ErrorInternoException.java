@@ -40,4 +40,51 @@ public class ErrorInternoException extends RuntimeException {
     example = "1"
   )
   private int valor;
+
+  @Schema(
+    example = "1"
+  )
+  double probabilidadNbNombre;
+
+  @Schema(
+    example = "1"
+  )
+  double probabilidadNbApellido;
+
+  /*
+  constructor
+   */
+  public ErrorInternoException(String nombre, String tipoNombre, String mensaje, int valor,
+                               double probabilidadNbNombre, double probabilidadNbApellido) {
+    this.nombre = nombre;
+    this.tipoNombre = tipoNombre;
+    this.mensaje = mensaje;
+    this.valor = valor;
+    this.probabilidadNbNombre = probabilidadNbNombre;
+    this.probabilidadNbApellido = probabilidadNbApellido;
+  }
+
+  public String getNombre(){
+    return this.nombre;
+  }
+
+  public String getTipoNombre(){
+    return this.tipoNombre;
+  }
+
+  public String getMensaje(){
+    return this.mensaje;
+  }
+
+  public int getValor(){
+    return this.valor;
+  }
+
+  public double getProbabilidadNbNombre(){
+    return this.probabilidadNbNombre;
+  }
+
+  public double getProbabilidadNbApellido() {
+    return this.probabilidadNbApellido;
+  }
 }

@@ -1,6 +1,6 @@
 package com.baz.moli.daos;
 
-import com.baz.log.LogServicio;
+import com.baz.moli.utilis.Constantes;
 
 import javax.inject.Singleton;
 import java.io.IOException;
@@ -33,7 +33,7 @@ public class ConectorHttpDao {
     /*
     determina el tiempo maximo de espera en 32 segundos
      */
-    connection.setConnectTimeout(3200);
+    connection.setConnectTimeout(Constantes.TIME_OUT);
     /*
     settea el metodo de peticion
      */
