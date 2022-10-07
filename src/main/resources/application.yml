@@ -1,0 +1,29 @@
+quarkus:
+  application:
+    name: ms-naive-bayes-moli
+  http:
+    port: 8082
+  container-image:
+    group: ""
+    name: ms-modulo-naive-bayes
+    tag: latest
+    registry: franciscoct
+  kubernetes:
+    namespace: app-datos
+  log:
+    level: INFO
+    file:
+      enable: false
+      path: ./log/modulo-naive-bayes-moli.log
+      level: INFO
+      format: '{"log_data":{"fecha":"%d{yyyy-MM-dd HH:mm:ss}","Level":"%-5p","Mensaje":"%m","servicios":[%X{servicios}],"TiempoTotal":%X{tiempo}}}%n'
+      rotation:
+        max-file-size: 500M
+        max-backup-index: 5
+        rotate-on-boot: true
+        file-suffix: .yyyy-MM-dd
+  smallrye-openapi:
+    path: /ms-naive-bayes-moli
+    info-title: Contrato de Interfaz Microservicio naive-bayes.
+    info-version: 1.0.0
+    info-description: Contrato de Interfaz para el calculo de naive bayes utilizando los datos del modulo frecuencias y determinar si una cadena es un nombre o apellidos para el modulo de coincidencia de nombres propios.
