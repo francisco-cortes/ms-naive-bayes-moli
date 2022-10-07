@@ -8,6 +8,7 @@ public class Constantes {
   public final static String HTTP_500 = "500";
 
   public static final String HANTEN = "?";
+  public static final String IGUAL = "=";
   public static final int CONSTANTE_NB = 10;
   public static final int TIME_OUT = 32000;
   public static final String GET_METHOD = "GET";
@@ -22,6 +23,7 @@ public class Constantes {
   public static final String ES_NOMBRE = "NOMBRE";
   public static final String ES_APELLIDO = "APELLIDO";
   public static final int ZERO_BY_DEFAULT = 0;
+  public static final String C3REMESASC = "c3remesas";
 
   public static final int TAMANO_UDI = 15;
   public static final int CICLOS_UDI = 3;

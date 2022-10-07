@@ -1,6 +1,7 @@
 package com.baz.moli.daos;
 
 import com.baz.moli.models.FrecuenciasResponseModel;
+import com.baz.moli.properties.Properties;
 import com.baz.moli.utilis.Constantes;
 import org.json.JSONObject;
 
@@ -22,11 +23,16 @@ public class FrecuenciasDao {
   @Inject
   private ConectorHttpDao conectorHttpDao;
 
+  @Inject
+  private Properties properties;
+
   public FrecuenciasResponseModel obtenerFrecuencias(String nombre) throws IOException {
     /*
     construccion sencilla de la cadena para la url
      */
-    String link = "";
+    String link = properties.conexionesdb().get(Constantes.C3REMESASC).urlbase() +
+      properties.conexionesdb().get(Constantes.C3REMESASC).endpoint() + Constantes.HANTEN +
+      properties.conexionesdb().get(Constantes.C3REMESASC).name() + Constantes.IGUAL + nombre;
     /*
     obejtos modelo
      */
@@ -39,7 +45,7 @@ public class FrecuenciasDao {
     /*
     conexion de metodo https
      */
-    connection = conectorHttpDao.crearConexion(Constantes.GET_METHOD,"http://localhost:8083/remesas/frecuencias/obtener-frecuencias?nombre=jose");
+    connection = conectorHttpDao.crearConexion(Constantes.GET_METHOD,link);
     /*
     headers nesesarios para el consumo
      */

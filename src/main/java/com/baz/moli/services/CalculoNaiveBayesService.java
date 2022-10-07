@@ -48,7 +48,7 @@ public class CalculoNaiveBayesService {
        */
       frecuencias = buscarFrecuencias(request.getNombre().toUpperCase().trim());
     } catch (Exception e) {
-      throw new ErrorInternoException(request.getNombre(), request.getTipoNombre(), "Error en la clasificacion: "
+      throw new ErrorInternoException(request.getNombre(), request.getTipoNombre(), "Error de Excepcion: "
         + e.getMessage(), Constantes.VALOR_EXEPCION,Constantes.ZERO_BY_DEFAULT,Constantes.ZERO_BY_DEFAULT);
     }
 

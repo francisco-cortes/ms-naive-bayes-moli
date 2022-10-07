@@ -27,3 +27,10 @@ quarkus:
     info-title: Contrato de Interfaz Microservicio naive-bayes.
     info-version: 1.0.0
     info-description: Contrato de Interfaz para el calculo de naive bayes utilizando los datos del modulo frecuencias y determinar si una cadena es un nombre o apellidos para el modulo de coincidencia de nombres propios.
+conexion:
+  conexionesdb:
+    c3remesas:
+      urlbase: http://localhost:8083
+      endpoint: /remesas/frecuencias/obtener-frecuencias
+      name: nombre
+      fsp: hola
