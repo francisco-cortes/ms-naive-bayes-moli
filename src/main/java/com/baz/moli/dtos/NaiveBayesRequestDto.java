@@ -17,10 +17,10 @@ public class NaiveBayesRequestDto {
     example = "LEONARDO",
     description = "Nombre o apellido de una persona"
   )
-  String nombre;
+  private String nombre;
   @Schema(
     example = "NOMBRE",
     description = "Tipo de nombre donde se clasifico"
   )
-  String tipoNombre;
+  private String tipoNombre;
 }

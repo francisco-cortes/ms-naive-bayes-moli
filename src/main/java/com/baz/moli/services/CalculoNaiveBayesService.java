@@ -1,5 +1,6 @@
 package com.baz.moli.services;
 
+import com.baz.log.LogServicio;
 import com.baz.moli.daos.FrecuenciasDao;
 import com.baz.moli.dtos.NaiveBayesRequestDto;
 import com.baz.moli.dtos.NaiveBayesResponseDto;
@@ -21,6 +22,8 @@ import java.io.IOException;
 @Singleton
 public class CalculoNaiveBayesService {
 
+  private static final String NOMBRE_CLASE = "CalculoNaiveBatesService";
+
   /*
   inyeccion del dao para obtener frecuencias
    */
@@ -36,7 +39,8 @@ public class CalculoNaiveBayesService {
         */
 
   public NaiveBayesResponseDto naiveBayes(NaiveBayesRequestDto request){
-
+    LogServicio log = new LogServicio();
+    log.iniciarTiempoMetodo(NOMBRE_CLASE,Constantes.NOMBRE_MS);
     /*
    inicio de modelo
      */
@@ -47,7 +51,14 @@ public class CalculoNaiveBayesService {
       obtiene las frecuancias
        */
       frecuencias = buscarFrecuencias(request.getNombre().toUpperCase().trim());
+      log.registrarMensaje(NOMBRE_CLASE, "las frecuencias para : " + request.getNombre() + " Son: \n" +
+        "Frecuencia nombre: " + frecuencias.getFrecuenciaNombre() + " de un total de : " +
+        frecuencias.getTotalRegistrosNombre() + " nombres \n" +
+        "Frecuencia apellidos: " + frecuencias.getFrecuenciaApellidos() + " de un total de : " +
+        frecuencias.getTotalRegistrosApellidos() + " apellidos \n");
     } catch (Exception e) {
+      log.registrarExcepcion(e,"Error de exepcion");
+      log.registrarMensaje(NOMBRE_CLASE, e.getMessage());
       throw new ErrorInternoException(request.getNombre(), request.getTipoNombre(), "Error de Excepcion: "
         + e.getMessage(), Constantes.VALOR_EXEPCION,Constantes.ZERO_BY_DEFAULT,Constantes.ZERO_BY_DEFAULT);
     }
@@ -55,20 +66,24 @@ public class CalculoNaiveBayesService {
     /*
     calculo de la probabilidad de nombre
      */
-    double probabilidadNombre = calculoNaiveBayes(frecuencias.getFrecuenciaNombre().floatValue(),
-      frecuencias.getTotalRegistrosNombre().floatValue());
+    double probabilidadNombre = calculoNaiveBayes(frecuencias.getFrecuenciaNombre().doubleValue(),
+      frecuencias.getTotalRegistrosNombre().doubleValue());
+    log.registrarMensaje(NOMBRE_CLASE, "Probabilidad de Nombre : " + probabilidadNombre);
 
     /*
     calculo de la probabilidad de apellido
      */
-    double probabilidadApellido = calculoNaiveBayes(frecuencias.getFrecuenciaApellidos().floatValue(),
-      frecuencias.getTotalRegistrosApellidos().floatValue());
+    double probabilidadApellido = calculoNaiveBayes(frecuencias.getFrecuenciaApellidos().doubleValue(),
+      frecuencias.getTotalRegistrosApellidos().doubleValue());
+    log.registrarMensaje(NOMBRE_CLASE, "Probabilidad de Apellido : " + probabilidadApellido);
 
     /*
     creacion del obajeto respuesta
      */
+    log.terminarTiempoMetodo(NOMBRE_CLASE);
+    log.obtenerTiempoTotal(NOMBRE_CLASE);
     return comparaNaiveBayes(request.getNombre(), request.getTipoNombre().toUpperCase().trim()
-      , probabilidadNombre, probabilidadApellido);
+      , probabilidadNombre, probabilidadApellido, log);
 
   }
 
@@ -92,7 +107,7 @@ public class CalculoNaiveBayesService {
    * @ultimaModificacion: 09/06/22
    */
 
-  private double calculoNaiveBayes (float frec, float total){
+  private double calculoNaiveBayes (Double frec, Double total){
     double naiveBayes;
     if(frec > 0 && total > 0) {
       naiveBayes = (frec/total) * Constantes.CONSTANTE_NB;
@@ -111,13 +126,14 @@ public class CalculoNaiveBayesService {
    * @ultimaModificacion: 09/06/22
    */
 
-  private NaiveBayesResponseDto comparaNaiveBayes (String nomAp, String tipoNombre, double probNbNom, double probNbAp){
+  private NaiveBayesResponseDto comparaNaiveBayes (String nomAp, String tipoNombre,
+                                                   double probNbNom, double probNbAp, LogServicio log){
     String nuevoTipoNombre;
     String mensaje;
     int valor;
 
     if(probNbNom > probNbAp){
-
+      log.registrarMensaje(NOMBRE_CLASE, "Probabilidad de nombre mas alta");
       nuevoTipoNombre = Constantes.ES_NOMBRE ;
 
       if( tipoNombre.equals(nuevoTipoNombre) ){
@@ -135,7 +151,7 @@ public class CalculoNaiveBayesService {
 
     }
     else if (probNbAp > probNbNom){
-
+      log.registrarMensaje(NOMBRE_CLASE, "Probabilidad de apellido mas alta");
       nuevoTipoNombre = Constantes.ES_APELLIDO;
 
       if(tipoNombre.equals(nuevoTipoNombre)){

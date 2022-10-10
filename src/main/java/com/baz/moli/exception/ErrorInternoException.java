@@ -30,7 +30,7 @@ public class ErrorInternoException extends RuntimeException {
   codigo operacion
    */
   @Schema(
-    example = "CLASIFICACION CORRECTA"
+    example = "SQL EXEPCION"
   )
   private String mensaje;
   /*
@@ -44,12 +44,12 @@ public class ErrorInternoException extends RuntimeException {
   @Schema(
     example = "1"
   )
-  double probabilidadNbNombre;
+  private double probabilidadNbNombre;
 
   @Schema(
     example = "1"
   )
-  double probabilidadNbApellido;
+  private double probabilidadNbApellido;
 
   /*
   constructor

@@ -17,34 +17,34 @@ public class NaiveBayesResponseDto {
     example = "LEONARDO",
     description = "Nombre o apellido de una persona"
   )
-  String nombre;
+  private String nombre;
   @Schema(
     example = "NOMBRE",
     description = "Clasificacion del nombre dependiendo de Naive Bayes"
   )
-  String tipoNombre;
+  private String tipoNombre;
   @Schema(
-    example = "sql expecion",
+    example = "CLASIFICACION CORRECTA",
     description = "Mensaje de expecion, o de operacion"
   )
-  String mensaje;
+  private String mensaje;
   @Schema(
     example = "1",
     description = "valopr correspondiente al cambio o error"
   )
-  int valor;
+  private int valor;
 
   @Schema(
     example = "1",
     description = "valor de la probabilidad de naive bayes para nombre"
   )
-  double probabilidadNbNombre;
+  private double probabilidadNbNombre;
 
   @Schema(
     example = "1",
     description = "valor de la probabilidad de naive bayes para apellido"
   )
-  double probabilidadNbApellido;
+  private double probabilidadNbApellido;
 
   /*
   constructor

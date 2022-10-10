@@ -5,7 +5,7 @@ quarkus:
     port: 8082
   container-image:
     group: ""
-    name: ms-modulo-naive-bayes
+    name: ms-naive-bayes-moli
     tag: latest
     registry: franciscoct
   kubernetes:
@@ -13,7 +13,7 @@ quarkus:
   log:
     level: INFO
     file:
-      enable: false
+      enable: true
       path: ./log/modulo-naive-bayes-moli.log
       level: INFO
       format: '{"log_data":{"fecha":"%d{yyyy-MM-dd HH:mm:ss}","Level":"%-5p","Mensaje":"%m","servicios":[%X{servicios}],"TiempoTotal":%X{tiempo}}}%n'
@@ -30,7 +30,7 @@ quarkus:
 conexion:
   conexionesdb:
     c3remesas:
-      urlbase: http://localhost:8083
+      urlbase: http://host.docker.internal:8083
       endpoint: /remesas/frecuencias/obtener-frecuencias
       name: nombre
       fsp: hola
