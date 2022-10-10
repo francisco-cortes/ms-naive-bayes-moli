@@ -19,7 +19,7 @@ public class CalculoNaiveBayesServiceTest {
 
   @DisplayName("Prueba Unitaria sobre naive bayes")
   @Test
-  public void testCalculoNaiveBayes(){
+  public void testCalculoNaiveBayesNombre(){
     /*
     Cambiar docker.internal.host por localhost
      */
@@ -27,6 +27,21 @@ public class CalculoNaiveBayesServiceTest {
     NaiveBayesRequestDto request = new NaiveBayesRequestDto();
     request.setNombre("LEONARDO");
     request.setTipoNombre("APELLIDO");
+    NaiveBayesResponseDto nb = calculoNaiveBayesService.naiveBayes(request);
+
+    assertEquals(nb.getTipoNombre(),tipoNombreEsperado);
+  }
+
+  @DisplayName("Prueba Unitaria sobre naive bayes apellido")
+  @Test
+  public void testCalculoNaiveBayesApellido(){
+    /*
+    Cambiar docker.internal.host por localhost
+     */
+    final String tipoNombreEsperado = "APELLIDO";
+    NaiveBayesRequestDto request = new NaiveBayesRequestDto();
+    request.setNombre("VAZQUEZ");
+    request.setTipoNombre("NOMBRE");
     NaiveBayesResponseDto nb = calculoNaiveBayesService.naiveBayes(request);
 
     assertEquals(nb.getTipoNombre(),tipoNombreEsperado);

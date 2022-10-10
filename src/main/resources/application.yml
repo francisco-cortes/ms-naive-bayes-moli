@@ -30,7 +30,7 @@ quarkus:
 conexion:
   conexionesdb:
     c3remesas:
-      urlbase: http://host.docker.internal:8083
+      urlbase: http://localhost:8083
       endpoint: /remesas/frecuencias/obtener-frecuencias
       name: nombre
       fsp: hola
