@@ -18,7 +18,7 @@ quarkus:
       level: INFO
       format: '{"log_data":{"fecha":"%d{yyyy-MM-dd HH:mm:ss}","Level":"%-5p","Mensaje":"%m","servicios":[%X{servicios}],"TiempoTotal":%X{tiempo}}}%n'
       rotation:
-        max-file-size: 500M
+        max-file-size: 200M
         max-backup-index: 5
         rotate-on-boot: true
         file-suffix: .yyyy-MM-dd
@@ -30,7 +30,7 @@ quarkus:
 conexion:
   conexionesdb:
     c3remesas:
-      urlbase: http://localhost:8083
-      endpoint: /remesas/frecuencias/obtener-frecuencias
+      urlbase: http://internal-k8s-albremesasdev-b1f52443bd-1491032076.us-east-1.elb.amazonaws.com
+      endpoint: /datos/frecuencias/obtener-frecuencias
       name: nombre
       fsp: hola

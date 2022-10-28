@@ -10,13 +10,16 @@ import com.baz.moli.utilis.Constantes;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.http.MediaType;
 
 import javax.inject.Inject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
@@ -26,7 +29,9 @@ import javax.ws.rs.core.Response;
  * @ultimaModificacion: 09/06/22
  */
 
-@Path("/remesas/modulo-naive-bayes")
+@RestController
+@RequestMapping("/datos/naive-bayes")
+@Tag(name = "Controlador - naive-bayes")
 public class NaiveBayesController {
 
   /*
@@ -45,12 +50,8 @@ public class NaiveBayesController {
    *
    * @ultimaModificacion: 09/06/22
    */
-  @POST
-  @Path("/calcula-nb")
   @Operation(operationId = "1",
     summary = "Metodo que retorna un posible tipo de nombre utilizando probabilidades naiveBayes")
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
   @APIResponses(value =
     {
       @APIResponse(
@@ -65,6 +66,9 @@ public class NaiveBayesController {
           schema =  @Schema(implementation = ErrorInternoException.class))),
 
     })
+  @PostMapping(value ="/calcula-nb",
+    produces = MediaType.APPLICATION_JSON_VALUE,
+    consumes = MediaType.APPLICATION_JSON_VALUE)
   public Response naiveBayes(@RequestBody NaiveBayesRequestDto request){
     /*
     modelo de datos con la salida
@@ -74,29 +78,5 @@ public class NaiveBayesController {
     retorna el modelo como entidad para parseo como Json
      */
     return Response.ok().entity(respuestaNb).build();
-  }
-
-  /**
-   * <b>status</b>
-   * @descripcion: Método para validar el estado del microservicio
-   * @autor: Francisco Javier Cortes Torres, Desarrollador
-   *
-   * @ultimaModificacion: 20/06/22
-   */
-  @GET
-  @Path("/estado")
-  @Operation(
-    summary = "Metodo de consulta al estado y Uid del microservicio",
-    description = "description")
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response status(){
-    /*
-    modelo con con los datos de salida
-     */
-    EstadoResponseDto estadoResponseDto = monitoreoService.generarUid();
-    /*
-    retorna el objeto como entidad para el parceo como json
-     */
-    return Response.ok().entity(estadoResponseDto).build();
   }
 }

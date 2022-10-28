@@ -23,7 +23,7 @@ public class MonitoreoService {
    * @ultimaModificacion: 04/10/22
    */
 
-  public EstadoResponseDto generarUid(){
+  public static EstadoResponseDto generarUid(){
     EstadoResponseDto uidAlive = new EstadoResponseDto();
     uidAlive.setMensaje(Constantes.ESTADO_OK);
     /*
