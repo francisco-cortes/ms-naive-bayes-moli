@@ -1,4 +1,4 @@
-package com.baz.moli.dtos;
+package com.baz.moli.dto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
@@ -13,7 +13,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 @Data
 @JsonPropertyOrder({"mensaje","folio"})
-public class EstadoResponseDto {
+public class DtoRespuestaEstado {
   /*
   mensaje
    */

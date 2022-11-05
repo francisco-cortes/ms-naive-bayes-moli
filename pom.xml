@@ -101,7 +101,7 @@
       <artifactId>json</artifactId>
       <version>20180130</version>
     </dependency>
-    <!-- Properties en formato yaml -->
+    <!-- Propiedades en formato yaml -->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-config-yaml</artifactId>

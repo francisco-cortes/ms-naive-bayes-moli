@@ -1,4 +1,4 @@
-package com.baz.moli.models;
+package com.baz.moli.modelos;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;
@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 @Setter
 @Getter
 @JsonPropertyOrder({"frecuenciaNombre","totalregistrosNombre","frecuenciaApellidos","totalRegistrosApellidos"})
-public class FrecuenciasResponseModel {
+public class ModeloRespuestaFrecuencias {
   /*
   cuantas veces se encontro la cadena como nombre
    */

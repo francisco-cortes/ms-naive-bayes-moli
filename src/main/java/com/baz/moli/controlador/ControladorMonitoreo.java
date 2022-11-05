@@ -1,7 +1,7 @@
-package com.baz.moli.controllers;
+package com.baz.moli.controlador;
 
-import com.baz.moli.dtos.EstadoResponseDto;
-import com.baz.moli.services.MonitoreoService;
+import com.baz.moli.dto.DtoRespuestaEstado;
+import com.baz.moli.servicios.ServicioMonitoreo;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.springframework.http.MediaType;
@@ -18,10 +18,10 @@ import javax.ws.rs.core.Response;
 public class ControladorMonitoreo {
 
   @Inject
-  private MonitoreoService monitoreoService;
+  private ServicioMonitoreo servicioMonitoreo;
 
   /**
-   * <b>status</b>
+   * <b>Estado</b>
    * @descripcion: Método para validar el estado del microservicio
    * @autor: Francisco Javier Cortes Torres, Desarrollador
    * @ultimaModificacion: 13/10/22
@@ -30,13 +30,13 @@ public class ControladorMonitoreo {
     operationId = "2",
     summary = "Se realiza el test de disponibilidad al microservicio.")
   @GetMapping(value ="/status", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Response status(){
+  public Response Estado(){
     /*
-    modelo con con los datos de salida
+    modelo con los datos de salida
      */
-    EstadoResponseDto dtoEstadoResponse = MonitoreoService.generarUid();
+    DtoRespuestaEstado dtoEstadoResponse = ServicioMonitoreo.generarUid();
     /*
-    retorna el objeto como entidad para el parceo como json
+    retorna el objeto como entidad para el parseo como json
      */
     return Response.ok().entity(dtoEstadoResponse).build();
   }

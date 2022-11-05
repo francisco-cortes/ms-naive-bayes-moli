@@ -2,7 +2,7 @@ quarkus:
   application:
     name: ms-naive-bayes-moli
   http:
-    port: 8082
+    port: 8080
   container-image:
     group: ""
     name: ms-naive-bayes-moli

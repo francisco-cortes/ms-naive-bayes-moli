@@ -44,3 +44,7 @@ log/
 
 .scannerwork/
 
+ms-naive-bayes-moli-deploy.yml
+deployment.yml
+ingress.yml
+service.yml

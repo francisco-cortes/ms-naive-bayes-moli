@@ -1,19 +1,19 @@
-package com.baz.moli.services;
+package com.baz.moli.servicios;
 
-import com.baz.moli.dtos.EstadoResponseDto;
-import com.baz.moli.utilis.Constantes;
+import com.baz.moli.dto.DtoRespuestaEstado;
+import com.baz.moli.util.Constantes;
 import com.baz.servicios.Uid;
 
 import javax.inject.Singleton;
 
 /**
- * <b>MonitoreoService</b>
+ * <b>ServicioMonitoreo</b>
  * @descripcion: Monitoreo service para el modulo
  * @autor: Francisco Javier Cortes Torres, Desarrollador
  * @ultimaModificacion: 04/10/22
  */
 @Singleton
-public class MonitoreoService {
+public class ServicioMonitoreo {
 
   /**
    * <b>generarUid</b>
@@ -23,8 +23,8 @@ public class MonitoreoService {
    * @ultimaModificacion: 04/10/22
    */
 
-  public static EstadoResponseDto generarUid(){
-    EstadoResponseDto uidAlive = new EstadoResponseDto();
+  public static DtoRespuestaEstado generarUid(){
+    DtoRespuestaEstado uidAlive = new DtoRespuestaEstado();
     uidAlive.setMensaje(Constantes.ESTADO_OK);
     /*
     genera folio a traves de RemesasUtils.jar

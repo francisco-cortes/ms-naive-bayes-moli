@@ -1,6 +1,6 @@
-package com.baz.moli.daos;
+package com.baz.moli.dao;
 
-import com.baz.moli.utilis.Constantes;
+import com.baz.moli.util.Constantes;
 
 import javax.inject.Singleton;
 import java.io.IOException;
@@ -8,18 +8,18 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 @Singleton
-public class ConectorHttpDao {
+public class DaoFabricaConexionHttp {
   /**
-   * crearConexion
-   * Descrpcion: crea un objeto Https con el contexto de conexion para utlizar en los DAOS
-   * Autor: Francisco Javier Cortes Torres, Desarrollador
-   * params: metodo(String), link(String), log(LogServicio)
-   * returns: HttpsUrlConnection
+   * <b>crearConexion</b>
+   * @descrpcion: crea un objeto Https con el contexto de conexión para utilizar en los DAOS
+   * @autor: Francisco Javier Cortes Torres, Desarrollador
+   * @params: metodo(String), link(String), log(LogServicio)
+   * @returns: HttpsUrlConnection
    **/
   public HttpURLConnection crearConexion(String metodo, String link)
     throws IOException{
     /*
-    inicia objetos de conexion
+    inicia objetos de conexión
      */
     HttpURLConnection connection = null;
     /*
@@ -27,15 +27,15 @@ public class ConectorHttpDao {
      */
     URL url = new URL(link);
     /*
-    abre la conexion con el conexto y la URL
+    abre la conexión con el contexto y la URL
      */
     connection = (HttpURLConnection) url.openConnection();
     /*
-    determina el tiempo maximo de espera en 32 segundos
+    determina el tiempo máximo de espera en 32 segundos
      */
     connection.setConnectTimeout(Constantes.TIME_OUT);
     /*
-    settea el metodo de peticion
+    settea el método de petición
      */
     connection.setRequestMethod(metodo);
 

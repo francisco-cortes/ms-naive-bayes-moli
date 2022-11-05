@@ -1,11 +1,17 @@
-package com.baz.moli.utilis;
+package com.baz.moli.util;
 
 public class Constantes {
 
   public final static String NOMBRE_MS = "ms-naive-bayes-moli";
 
-  public final static String HTTP_200 = "200";
-  public final static String HTTP_500 = "500";
+  /*
+  Respuesta HTTP
+   */
+  public final static String CODIGO_HTTP_200 = "200";
+  public final static String CODIGO_HTTP_400 = "400";
+  public final static String CODIGO_HTTP_401 = "401";
+  public final static String CODIGO_HTTP_404 = "404";
+  public final static String CODIGO_HTTP_500 = "500";
 
   public static final String HANTEN = "?";
   public static final String IGUAL = "=";
@@ -30,4 +36,6 @@ public class Constantes {
 
   public static final String ESTADO_OK = "OK";
 
+  public static final boolean NO_REQUERIDO = false;
+  public static final boolean ES_REQUERIDO = true;
 }

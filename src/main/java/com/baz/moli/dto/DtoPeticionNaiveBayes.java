@@ -1,4 +1,4 @@
-package com.baz.moli.dtos;
+package com.baz.moli.dto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
@@ -12,7 +12,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
  */
 @Data
 @JsonPropertyOrder({"nombre","tipoNombre"})
-public class NaiveBayesRequestDto {
+public class DtoPeticionNaiveBayes {
   @Schema(
     example = "LEONARDO",
     description = "Nombre o apellido de una persona"

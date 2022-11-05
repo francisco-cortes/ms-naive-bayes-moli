@@ -1,84 +1,86 @@
-package com.baz.moli.services;
+package com.baz.moli.servicios;
 
 import com.baz.log.LogServicio;
-import com.baz.moli.daos.FrecuenciasDao;
-import com.baz.moli.dtos.NaiveBayesRequestDto;
-import com.baz.moli.dtos.NaiveBayesResponseDto;
+import com.baz.moli.dao.FrecuenciasDao;
+import com.baz.moli.dto.DtoPeticionNaiveBayes;
+import com.baz.moli.dto.DtoRespuestaNaiveBayes;
 import com.baz.moli.exception.ErrorInternoException;
-import com.baz.moli.models.FrecuenciasResponseModel;
-import com.baz.moli.utilis.Constantes;
+import com.baz.moli.modelos.ModeloRespuestaFrecuencias;
+import com.baz.moli.util.Constantes;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
 
 /**
- * <b>CalculoNaiveBayesService</b>
- * @descripcion: Logica principal donde se calcula la probabilidad naive bayes
- * para determinar a que tipo pertence el nombre dado
+ * <b>ServicioNaiveBayes</b>
+ * @descripcion: Lógica principal donde se calcula la probabilidad naive bayes
+ * para determinar a que tipo pertenece el nombre dado
  * @autor: Francisco Javier Cortes Torres, Desarrollador
  * @ultimaModificacion: 09/06/22
  */
 @Singleton
-public class CalculoNaiveBayesService {
+public class ServicioNaiveBayes {
 
   private static final String NOMBRE_CLASE = "CalculoNaiveBatesService";
 
   /*
-  inyeccion del dao para obtener frecuencias
+  inyección del dao para obtener frecuencias
    */
   @Inject
   private FrecuenciasDao frecuenciasDao;
 
   /**
-          * <b>naiveBayes</b>
-          * @descripcion: Metodo principal
-          * @autor: Francisco Javier Cortes Torres, Desarrollador
-          * @params: NaiveBayesRequest
-          * @ultimaModificacion: 07/10/22
-        */
+   * <b>naiveBayes</b>
+   * @descripcion: Metodo principal
+   * @autor: Francisco Javier Cortes Torres, Desarrollador
+   * @params: NaiveBayesRequest
+   * @ultimaModificacion: 07/10/22
+   */
 
-  public NaiveBayesResponseDto naiveBayes(NaiveBayesRequestDto request){
+  public DtoRespuestaNaiveBayes naiveBayes(DtoPeticionNaiveBayes request, String uid){
     LogServicio log = new LogServicio();
     log.iniciarTiempoMetodo(NOMBRE_CLASE,Constantes.NOMBRE_MS);
     /*
-   inicio de modelo
-     */
-    FrecuenciasResponseModel frecuencias;
+    inicio de modelo
+    */
+    ModeloRespuestaFrecuencias frecuencias;
 
     try {
       /*
-      obtiene las frecuancias
+      obtiene las frecuencias
        */
       frecuencias = buscarFrecuencias(request.getNombre().toUpperCase().trim());
+
       log.registrarMensaje(NOMBRE_CLASE, "las frecuencias para : " + request.getNombre() + " Son: \n" +
         "Frecuencia nombre: " + frecuencias.getFrecuenciaNombre() + " de un total de : " +
         frecuencias.getTotalRegistrosNombre() + " nombres \n" +
         "Frecuencia apellidos: " + frecuencias.getFrecuenciaApellidos() + " de un total de : " +
         frecuencias.getTotalRegistrosApellidos() + " apellidos \n");
-    } catch (Exception e) {
-      log.registrarExcepcion(e,"Error de exepcion");
-      log.registrarMensaje(NOMBRE_CLASE, e.getMessage());
+    }
+    catch (Exception excepcion) {
+      log.registrarExcepcion(excepcion,"Error de exepcion");
+      log.registrarMensaje(NOMBRE_CLASE, excepcion.getMessage());
       throw new ErrorInternoException(request.getNombre(), request.getTipoNombre(), "Error de Excepcion: "
-        + e.getMessage(), Constantes.VALOR_EXEPCION,Constantes.ZERO_BY_DEFAULT,Constantes.ZERO_BY_DEFAULT);
+        + excepcion.getMessage(), Constantes.VALOR_EXEPCION,Constantes.ZERO_BY_DEFAULT,Constantes.ZERO_BY_DEFAULT);
     }
 
     /*
-    calculo de la probabilidad de nombre
+    cálculo de la probabilidad de nombre
      */
     double probabilidadNombre = calculoNaiveBayes(frecuencias.getFrecuenciaNombre().doubleValue(),
       frecuencias.getTotalRegistrosNombre().doubleValue());
     log.registrarMensaje(NOMBRE_CLASE, "Probabilidad de Nombre : " + probabilidadNombre);
 
     /*
-    calculo de la probabilidad de apellido
+    cálculo de la probabilidad de apellido
      */
     double probabilidadApellido = calculoNaiveBayes(frecuencias.getFrecuenciaApellidos().doubleValue(),
       frecuencias.getTotalRegistrosApellidos().doubleValue());
     log.registrarMensaje(NOMBRE_CLASE, "Probabilidad de Apellido : " + probabilidadApellido);
 
     /*
-    creacion del obajeto respuesta
+    creación del objeto respuesta
      */
     log.terminarTiempoMetodo(NOMBRE_CLASE);
     log.obtenerTiempoTotal(NOMBRE_CLASE);
@@ -88,14 +90,14 @@ public class CalculoNaiveBayesService {
   }
 
   /**
-          * <b>buscarFrecuencias</b>
-          * @descripcion: obtiene las frecuencias de un nombre atraves de frecuencias dao
-          * @autor: Francisco Javier Cortes Torres, Desarrollador
-          * @params: String
-          * @ultimaModificacion: 07/10/22
-        */
+   * <b>buscarFrecuencias</b>
+   * @descripcion: obtiene las frecuencias de un nombre a través de frecuencias dao
+   * @autor: Francisco Javier Cortes Torres, Desarrollador
+   * @params: String
+   * @ultimaModificacion: 07/10/22
+   */
 
-  private FrecuenciasResponseModel buscarFrecuencias(String nombre) throws IOException {
+  private ModeloRespuestaFrecuencias buscarFrecuencias(String nombre) throws IOException {
     return frecuenciasDao.obtenerFrecuencias(nombre);
   }
 
@@ -126,7 +128,7 @@ public class CalculoNaiveBayesService {
    * @ultimaModificacion: 09/06/22
    */
 
-  private NaiveBayesResponseDto comparaNaiveBayes (String nomAp, String tipoNombre,
+  private DtoRespuestaNaiveBayes comparaNaiveBayes(String nomAp, String tipoNombre,
                                                    double probNbNom, double probNbAp, LogServicio log){
     String nuevoTipoNombre;
     String mensaje;
@@ -173,7 +175,7 @@ public class CalculoNaiveBayesService {
       valor = Constantes.VALOR_EXEPCION;
     }
 
-    return new NaiveBayesResponseDto(nomAp,nuevoTipoNombre,
+    return new DtoRespuestaNaiveBayes(nomAp,nuevoTipoNombre,
       mensaje,valor,probNbNom,probNbAp);
   }
 

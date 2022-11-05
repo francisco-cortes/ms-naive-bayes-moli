@@ -1,4 +1,4 @@
-package com.baz.moli.dtos;
+package com.baz.moli.dto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
@@ -12,7 +12,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
  */
 @Data
 @JsonPropertyOrder({"nombre","tipoNombre","mensaje","valor"})
-public class NaiveBayesResponseDto {
+public class DtoRespuestaNaiveBayes {
   @Schema(
     example = "LEONARDO",
     description = "Nombre o apellido de una persona"
@@ -49,8 +49,8 @@ public class NaiveBayesResponseDto {
   /*
   constructor
    */
-  public NaiveBayesResponseDto(String nombre, String tipoNombre, String mensaje, int valor,
-                               double probabilidadNbNombre, double probabilidadNbApellido) {
+  public DtoRespuestaNaiveBayes(String nombre, String tipoNombre, String mensaje, int valor,
+                                double probabilidadNbNombre, double probabilidadNbApellido) {
     this.nombre = nombre;
     this.tipoNombre = tipoNombre;
     this.mensaje = mensaje;

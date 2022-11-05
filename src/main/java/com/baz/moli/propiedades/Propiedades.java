@@ -1,20 +1,20 @@
-package com.baz.moli.properties;
+package com.baz.moli.propiedades;
 
-import com.baz.moli.properties.models.Configuraciones;
+import com.baz.moli.propiedades.modelos.Configuraciones;
 import io.quarkus.runtime.annotations.StaticInitSafe;
 import io.smallrye.config.ConfigMapping;
 
 import java.util.Map;
 
 /**
- * <b>Properties</b>
- * @descripcion: interface para obtener datos del properties.yml
+ * <b>Propiedades</b>
+ * @descripcion: interface para obtener datos del propiedades.yml
  * @autor: Francisco Javier Cortes Torres, Desarrollador
  * @ultimaModificacion: 04/10/22
  */
 @StaticInitSafe
 @ConfigMapping(prefix = "conexion")
-public interface Properties {
+public interface Propiedades {
   /**
    * <b>conexionesdb</b>
    * @descripcion: apunta a configuracionesdb
