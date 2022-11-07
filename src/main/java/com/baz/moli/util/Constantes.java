@@ -37,6 +37,8 @@ public class Constantes {
 
   public static final int TAMANO_UDI = 15;
   public static final int CICLOS_UDI = 3;
+  public static final int LONGITUD_MIN_ENTRADA = 1;
+  public static final int LONGITUD_MAX_ENTRADA = 10;
 
   public static final String ESTADO_OK = "OK";
 
