@@ -12,7 +12,11 @@ public class Constantes {
   public final static String CODIGO_HTTP_401 = "401";
   public final static String CODIGO_HTTP_404 = "404";
   public final static String CODIGO_HTTP_500 = "500";
+  public final static String MENSAJE_CODIGO_400 = "Datos de entrada incorrectos, por favor valide su información.";
 
+  public final static String MENSAJE_CODIGO_401 = "No estas autorizado, favor de validar.";
+  public final static String MENSAJE_CODIGO_404 = "Recurso no encontrado";
+  public final static String MENSAJE_CODIGO_500 = "Ocurrió un inconveniente al procesar la solicitud.";
   public static final String HANTEN = "?";
   public static final String IGUAL = "=";
   public static final int CONSTANTE_NB = 10;
