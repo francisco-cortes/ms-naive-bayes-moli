@@ -87,7 +87,7 @@ public class ControladorNaiveBayes {
         content = @Content(mediaType = "application/json",
           schema =  @Schema(implementation = DtoExcepcion.class))),
     })
-  @PostMapping(value ="/calcula-nb",
+  @PostMapping(value ="/calcula-naive-bayes",
     produces = MediaType.APPLICATION_JSON_VALUE,
     consumes = MediaType.APPLICATION_JSON_VALUE)
   public Response naiveBayes(@RequestHeader(name = "uid", required = Constantes.ES_REQUERIDO) String uid,
