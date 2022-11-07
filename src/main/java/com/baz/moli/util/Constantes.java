@@ -17,6 +17,10 @@ public class Constantes {
   public final static String MENSAJE_CODIGO_401 = "No estas autorizado, favor de validar.";
   public final static String MENSAJE_CODIGO_404 = "Recurso no encontrado";
   public final static String MENSAJE_CODIGO_500 = "Ocurrió un inconveniente al procesar la solicitud.";
+  public final static String CODIGO_SOLICITUD_INCORRECTA = "IDCMH00004";
+  public final static String CODIGO_NO_AUTORIZADO = "IDCMH00005";
+  public final static String CODIGO_NO_ENCONTRADO = "IDCMH00006";
+  public final static String CODIGO_ERROR_GENERAL = "IDCMH00007";
   public static final String HANTEN = "?";
   public static final String IGUAL = "=";
   public static final int CONSTANTE_NB = 10;
@@ -41,6 +45,8 @@ public class Constantes {
   public static final int LONGITUD_MAX_ENTRADA = 10;
 
   public static final String ESTADO_OK = "OK";
+  public static final String CODIGO_EXITO = "E";
+  public static final String MENSAJE_EXITO = "Operacion exitosa.";
 
   public static final boolean NO_REQUERIDO = false;
   public static final boolean ES_REQUERIDO = true;
