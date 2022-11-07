@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
- * <b>ExcepcionesController</b>
+ * <b>ControladorExcepciones</b>
  * @descripcion: Controlador de excepciones y respuestas controladas
  * @autor: Francisco Javier Cortes Torres, Desarrollador
  * @ultimaModificacion: 04/10/22
  */
 @RestControllerAdvice
-public class ExcepcionesController {
+public class ControladorExcepciones {
 
   /**
    * <b>badRequestException</b>

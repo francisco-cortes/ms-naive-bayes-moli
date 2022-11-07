@@ -12,13 +12,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 /**
-        * <b>FrecuenciasDao</b>
+        * <b>DaoFrecuencias</b>
         * @descripcion: dao para ms-frecuenciasp-nombre
         * @autor: Francisco Javier Cortes Torres, Desarrollador
         * @ultimaModificacion: 07/10/22
        */
 @Singleton
-public class FrecuenciasDao {
+public class DaoFrecuencias {
 
   @Inject
   private DaoFabricaConexionHttp daoFabricaConexionHttp;

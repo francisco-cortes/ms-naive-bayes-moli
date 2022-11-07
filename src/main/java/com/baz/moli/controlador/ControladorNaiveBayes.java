@@ -35,7 +35,7 @@ import javax.ws.rs.core.Response;
 @RestController
 @RequestMapping("/datos/naive-bayes")
 @Tag(name = "Controlador - naive-bayes")
-public class NaiveBayesController {
+public class ControladorNaiveBayes {
 
   /*
   instancia del servicio monitoreo a través de inyección

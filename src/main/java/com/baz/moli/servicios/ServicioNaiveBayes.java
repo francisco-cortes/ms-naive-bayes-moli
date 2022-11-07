@@ -1,7 +1,7 @@
 package com.baz.moli.servicios;
 
 import com.baz.log.LogServicio;
-import com.baz.moli.dao.FrecuenciasDao;
+import com.baz.moli.dao.DaoFrecuencias;
 import com.baz.moli.dto.DtoPeticionNaiveBayes;
 import com.baz.moli.dto.DtoRespuestaNaiveBayes;
 import com.baz.moli.exception.ErrorInternoException;
@@ -28,7 +28,7 @@ public class ServicioNaiveBayes {
   inyección del dao para obtener frecuencias
    */
   @Inject
-  private FrecuenciasDao frecuenciasDao;
+  private DaoFrecuencias daoFrecuencias;
 
   /**
    * <b>naiveBayes</b>
@@ -98,7 +98,7 @@ public class ServicioNaiveBayes {
    */
 
   private ModeloRespuestaFrecuencias buscarFrecuencias(String nombre) throws IOException {
-    return frecuenciasDao.obtenerFrecuencias(nombre);
+    return daoFrecuencias.obtenerFrecuencias(nombre);
   }
 
   /**

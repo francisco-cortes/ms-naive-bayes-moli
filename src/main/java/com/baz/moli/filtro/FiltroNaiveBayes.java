@@ -17,7 +17,7 @@ import java.io.IOException;
 
 @Provider
 @PreMatching
-public class filtroNaiveBayes implements ContainerRequestFilter {
+public class FiltroNaiveBayes implements ContainerRequestFilter {
   private static final UtilidadGenerarExcepcion UTILIDAD_GENERAR_EXCEPCION = new UtilidadGenerarExcepcion();
 
   /**
