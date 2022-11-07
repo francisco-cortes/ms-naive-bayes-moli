@@ -8,9 +8,15 @@ import com.elektra.naive.bayes.exception.ErrorInternoException;
 import com.elektra.naive.bayes.modelos.ModeloRespuestaFrecuencias;
 import com.elektra.naive.bayes.util.Constantes;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * <b>ServicioNaiveBayes</b>
@@ -98,7 +104,21 @@ public class ServicioNaiveBayes {
    */
 
   private ModeloRespuestaFrecuencias buscarFrecuencias(String nombre) throws IOException {
-    return daoFrecuencias.obtenerFrecuencias(nombre);
+    try {
+      return daoFrecuencias.obtenerFrecuencias(nombre);
+    } catch (InvalidAlgorithmParameterException e) {
+      throw new RuntimeException(e);
+    } catch (NoSuchPaddingException e) {
+      throw new RuntimeException(e);
+    } catch (IllegalBlockSizeException e) {
+      throw new RuntimeException(e);
+    } catch (NoSuchAlgorithmException e) {
+      throw new RuntimeException(e);
+    } catch (BadPaddingException e) {
+      throw new RuntimeException(e);
+    } catch (InvalidKeyException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**

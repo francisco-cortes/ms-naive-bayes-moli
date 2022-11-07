@@ -30,7 +30,7 @@ quarkus:
 conexion:
   conexionesdb:
     c3remesas:
-      urlbase: http://internal-k8s-albremesasdev-b1f52443bd-1491032076.us-east-1.elb.amazonaws.com
-      endpoint: /datos/frecuencias/obtener-frecuencias
-      name: nombre
+      urlbase: XOOXdovNWOJkUC79xsBqAHILVwK2hKxCfpa62khVEea57gRea6EL_KjQ-A20jfeOyqAkfVD-9HqUFoOnE1Id8Aox8lGs9YSqJVP1Wlux4QO_0aRm9iR_qd2yEZcitlPw
+      endpoint: bXmzk7swyoZ1tjXU4ruFcVB5zMPxXfSzE2mHZ2WLNo7kglEK3CPZTSBn94oKZO32
+      name: kEk6Kvs2hKfUgvVTbP47tg
       fsp: hola

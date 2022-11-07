@@ -27,7 +27,7 @@ public class ServicioNaiveBayesTest {
     DtoPeticionNaiveBayes request = new DtoPeticionNaiveBayes();
     request.setNombre("LEONARDO");
     request.setTipoNombre("APELLIDO");
-    DtoRespuestaNaiveBayes nb = servicioNaiveBayes.naiveBayes(request);
+    DtoRespuestaNaiveBayes nb = servicioNaiveBayes.naiveBayes(request,"TESTUID");
 
     assertEquals(nb.getTipoNombre(),tipoNombreEsperado);
   }
@@ -42,7 +42,7 @@ public class ServicioNaiveBayesTest {
     DtoPeticionNaiveBayes request = new DtoPeticionNaiveBayes();
     request.setNombre("VAZQUEZ");
     request.setTipoNombre("NOMBRE");
-    DtoRespuestaNaiveBayes nb = servicioNaiveBayes.naiveBayes(request);
+    DtoRespuestaNaiveBayes nb = servicioNaiveBayes.naiveBayes(request,"TESTUID");
 
     assertEquals(nb.getTipoNombre(),tipoNombreEsperado);
   }

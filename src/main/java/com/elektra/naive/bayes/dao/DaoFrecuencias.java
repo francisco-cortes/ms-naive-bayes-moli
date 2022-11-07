@@ -1,16 +1,24 @@
 package com.elektra.naive.bayes.dao;
 
+import com.baz.servicios.CifradorAes;
 import com.elektra.naive.bayes.modelos.ModeloRespuestaFrecuencias;
 import com.elektra.naive.bayes.propiedades.Propiedades;
 import com.elektra.naive.bayes.util.Constantes;
 import org.json.JSONObject;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
 /**
  * <b>DaoFrecuencias</b>
  * @descripcion: dao para ms-frecuencia-nombre
@@ -26,14 +34,22 @@ public class DaoFrecuencias {
   @Inject
   private Propiedades propiedades;
 
-  public ModeloRespuestaFrecuencias obtenerFrecuencias(String nombre) throws IOException {
+  private CifradorAes cifradorAes;
+
+  public ModeloRespuestaFrecuencias obtenerFrecuencias(String nombre) throws IOException,
+    InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException,
+    NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+    cifradorAes = new CifradorAes(false);
     String param = nombre.replace(" ", "+");
     /*
     construcción sencilla de la cadena para la url
      */
-    String link = propiedades.conexionesdb().get(Constantes.C3REMESASC).urlbase() +
-      propiedades.conexionesdb().get(Constantes.C3REMESASC).endpoint() + Constantes.HANTEN +
-      propiedades.conexionesdb().get(Constantes.C3REMESASC).name() + Constantes.IGUAL + param;
+    String link = cifradorAes.desencriptarDato(propiedades.conexionesdb().get(Constantes.C3REMESASC).urlbase()) +
+      cifradorAes.desencriptarDato( propiedades.conexionesdb().get(Constantes.C3REMESASC).endpoint() )+
+      Constantes.HANTEN +
+      cifradorAes.desencriptarDato(propiedades.conexionesdb().get(Constantes.C3REMESASC).name()) +
+      Constantes.IGUAL +
+      param;
     /*
     objetos modelo
      */
@@ -91,7 +107,6 @@ public class DaoFrecuencias {
     modeloRespuestaFrecuencias.setFrecuenciaApellidos(jsonResponse.getBigDecimal("frecuenciaApellidos"));
     modeloRespuestaFrecuencias.setTotalRegistrosApellidos(jsonResponse.getBigDecimal("totalRegistrosApellidos"));
     modeloRespuestaFrecuencias.setMensaje(jsonResponse.getString("mensaje"));
-    modeloRespuestaFrecuencias.setCodigoInterno(jsonResponse.getString("codigoInterno"));
 
     return modeloRespuestaFrecuencias;
   }
