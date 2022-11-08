@@ -2,6 +2,8 @@ package com.elektra.naive.bayes.dto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 /**
@@ -11,6 +13,8 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
  * @ultimaModificacion: 09/06/22
  */
 @Data
+@Getter
+@Setter
 @JsonPropertyOrder({"nombre","tipoNombre","mensaje","valor"})
 public class DtoRespuestaNaiveBayes {
   @Schema(
@@ -45,18 +49,5 @@ public class DtoRespuestaNaiveBayes {
     description = "valor de la probabilidad de naive bayes para apellido"
   )
   private double probabilidadNbApellido;
-
-  /*
-  constructor
-   */
-  public DtoRespuestaNaiveBayes(String nombre, String tipoNombre, String mensaje, int valor,
-                                double probabilidadNbNombre, double probabilidadNbApellido) {
-    this.nombre = nombre;
-    this.tipoNombre = tipoNombre;
-    this.mensaje = mensaje;
-    this.valor = valor;
-    this.probabilidadNbNombre = probabilidadNbNombre;
-    this.probabilidadNbApellido = probabilidadNbApellido;
-  }
 
 }

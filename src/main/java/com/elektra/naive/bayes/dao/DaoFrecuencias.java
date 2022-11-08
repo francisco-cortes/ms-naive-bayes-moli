@@ -1,9 +1,11 @@
 package com.elektra.naive.bayes.dao;
 
+import com.baz.log.LogServicio;
 import com.baz.servicios.CifradorAes;
 import com.elektra.naive.bayes.modelos.ModeloRespuestaFrecuencias;
 import com.elektra.naive.bayes.propiedades.Propiedades;
 import com.elektra.naive.bayes.util.Constantes;
+import com.elektra.naive.bayes.util.LectorRespuestaHttp;
 import org.json.JSONObject;
 
 import javax.crypto.BadPaddingException;
@@ -34,11 +36,16 @@ public class DaoFrecuencias {
   @Inject
   private Propiedades propiedades;
 
+  @Inject
+  private LectorRespuestaHttp lectorRespuestaHttp;
+
   private CifradorAes cifradorAes;
 
-  public ModeloRespuestaFrecuencias obtenerFrecuencias(String nombre) throws IOException,
+  public ModeloRespuestaFrecuencias obtenerFrecuencias(String nombre, LogServicio log) throws IOException,
     InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException,
     NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+    String nombreClaseMetodo = "DaoFrecuencias-obtenerFrecuencias";
+    log.iniciarTiempoMetodo(nombreClaseMetodo,Constantes.ES_NOMBRE);
     cifradorAes = new CifradorAes(false);
     String param = nombre.replace(" ", "+");
     /*
@@ -54,7 +61,6 @@ public class DaoFrecuencias {
     objetos modelo
      */
     ModeloRespuestaFrecuencias modeloRespuestaFrecuencias = new ModeloRespuestaFrecuencias();
-    BufferedReader br;
     /*
     conector https
      */
@@ -70,44 +76,45 @@ public class DaoFrecuencias {
     connection.setRequestProperty("Accept-Encoding","gzip, deflate, br");
 
     if(connection.getResponseCode() > Constantes.OK_HTTP_LIMIT){
-      br = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+      BufferedReader respuestaBuffered = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+      String respuesta = lectorRespuestaHttp.leerRespuestaHttp(respuestaBuffered);
+      log.registrarMensaje(nombreClaseMetodo, "Error al obtener frecuencias: " +
+        respuesta);
+      /*
+      cierra el buferedReader
+      */
+      respuestaBuffered.close();
+      modeloRespuestaFrecuencias.setFrecuenciaNombre(Constantes.BIG_ZERO_BY_DEFAULT);
+      modeloRespuestaFrecuencias.setTotalRegistrosNombre(Constantes.BIG_ZERO_BY_DEFAULT);
+      modeloRespuestaFrecuencias.setFrecuenciaApellidos(Constantes.BIG_ZERO_BY_DEFAULT);
+      modeloRespuestaFrecuencias.setTotalRegistrosApellidos(Constantes.BIG_ZERO_BY_DEFAULT);
+      modeloRespuestaFrecuencias.setMensaje("No Encotrado");
     }
     /*
     si no obtiene el objeto inputStream para respuesta positivas
      */
     else {
-      br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+      BufferedReader respuestaBuffered = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+      String respuesta = lectorRespuestaHttp.leerRespuestaHttp(respuestaBuffered);
+      /*
+      cierra el buferedReader
+      */
+      respuestaBuffered.close();
+      /*
+      parseo de las respuestas a json
+      */
+      JSONObject jsonResponse = new JSONObject(respuesta.trim());
+      /*
+      obtención de respuestas json a modelo modeloRespuestaFrecuencias
+      */
+      modeloRespuestaFrecuencias.setFrecuenciaNombre(jsonResponse.getBigDecimal("frecuenciaNombre"));
+      modeloRespuestaFrecuencias.setTotalRegistrosNombre(jsonResponse.getBigDecimal("totalRegistrosNombre"));
+      modeloRespuestaFrecuencias.setFrecuenciaApellidos(jsonResponse.getBigDecimal("frecuenciaApellidos"));
+      modeloRespuestaFrecuencias.setTotalRegistrosApellidos(jsonResponse.getBigDecimal("totalRegistrosApellidos"));
+      modeloRespuestaFrecuencias.setMensaje(jsonResponse.getString("mensaje"));
     }
-
-    StringBuilder sb = new StringBuilder();
-
-    String line;
-    while ((line = br.readLine()) != null) {
-      sb.append(line);
-    }
-    /*
-    cierra el buferedReader
-     */
-    br.close();
-    /*
-    cerrar conexión https
-     */
     connection.disconnect();
-    /*
-    parseo de las respuestas a json
-     */
-    int i = sb.indexOf("{");
-    String responseString = sb.substring(i);
-    JSONObject jsonResponse = new JSONObject(responseString.trim());
-    /*
-    obtención de respuestas json a modelo modeloRespuestaFrecuencias
-     */
-    modeloRespuestaFrecuencias.setFrecuenciaNombre(jsonResponse.getBigDecimal("frecuenciaNombre"));
-    modeloRespuestaFrecuencias.setTotalRegistrosNombre(jsonResponse.getBigDecimal("totalRegistrosNombre"));
-    modeloRespuestaFrecuencias.setFrecuenciaApellidos(jsonResponse.getBigDecimal("frecuenciaApellidos"));
-    modeloRespuestaFrecuencias.setTotalRegistrosApellidos(jsonResponse.getBigDecimal("totalRegistrosApellidos"));
-    modeloRespuestaFrecuencias.setMensaje(jsonResponse.getString("mensaje"));
-
+    log.terminarTiempoMetodo(nombreClaseMetodo);
     return modeloRespuestaFrecuencias;
   }
 }

@@ -1,5 +1,7 @@
 package com.elektra.naive.bayes.util;
 
+import java.math.BigDecimal;
+
 public class Constantes {
 
   public final static String NOMBRE_MS = "ms-naive-bayes-moli";
@@ -37,6 +39,7 @@ public class Constantes {
   public static final String ES_NOMBRE = "NOMBRE";
   public static final String ES_APELLIDO = "APELLIDO";
   public static final int ZERO_BY_DEFAULT = 0;
+  public static final BigDecimal BIG_ZERO_BY_DEFAULT = BigDecimal.valueOf(0);
   public static final String C3REMESASC = "c3remesas";
 
   public static final int TAMANO_UDI = 15;

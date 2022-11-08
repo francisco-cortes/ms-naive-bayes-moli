@@ -6,17 +6,11 @@ import com.elektra.naive.bayes.dto.DtoPeticionNaiveBayes;
 import com.elektra.naive.bayes.dto.DtoRespuestaNaiveBayes;
 import com.elektra.naive.bayes.exception.ErrorInternoException;
 import com.elektra.naive.bayes.modelos.ModeloRespuestaFrecuencias;
+import com.elektra.naive.bayes.util.CalculoNaiveBayes;
+import com.elektra.naive.bayes.util.ComparaNaiveBayes;
 import com.elektra.naive.bayes.util.Constantes;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.IOException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * <b>ServicioNaiveBayes</b>
@@ -27,176 +21,75 @@ import java.security.NoSuchAlgorithmException;
  */
 @Singleton
 public class ServicioNaiveBayes {
-
-  private static final String NOMBRE_CLASE = "CalculoNaiveBatesService";
-
   /*
   inyección del dao para obtener frecuencias
    */
   @Inject
   private DaoFrecuencias daoFrecuencias;
 
+  @Inject
+  private CalculoNaiveBayes calculoNaiveBayes;
+
+  @Inject
+  private ComparaNaiveBayes comparaNaiveBayes;
   /**
    * <b>naiveBayes</b>
-   * @descripcion: Metodo principal
+   * @descripcion: Método principal
    * @autor: Francisco Javier Cortes Torres, Desarrollador
    * @params: NaiveBayesRequest
    * @ultimaModificacion: 07/10/22
    */
 
-  public DtoRespuestaNaiveBayes naiveBayes(DtoPeticionNaiveBayes request, String uid){
+  public DtoRespuestaNaiveBayes naiveBayes(DtoPeticionNaiveBayes peticion, String uid){
+    String nombreClaseMetodo = "ServicioNaiveBayes-naiveBayes";
     LogServicio log = new LogServicio();
-    log.iniciarTiempoMetodo(NOMBRE_CLASE, Constantes.NOMBRE_MS);
+    log.iniciarTiempoMetodo(nombreClaseMetodo, Constantes.NOMBRE_MS);
     /*
     inicio de modelo
     */
     ModeloRespuestaFrecuencias frecuencias;
-
+    DtoRespuestaNaiveBayes respuesta;
+    double probabilidadNombre = 0;
+    double probabilidadApellido = 0;
     try {
       /*
       obtiene las frecuencias
-       */
-      frecuencias = buscarFrecuencias(request.getNombre().toUpperCase().trim());
+      */
+      frecuencias = daoFrecuencias.obtenerFrecuencias(peticion.getNombre(), log);
 
-      log.registrarMensaje(NOMBRE_CLASE, "las frecuencias para : " + request.getNombre() + " Son: \n" +
+      log.registrarMensaje(nombreClaseMetodo, "las frecuencias para : " + peticion.getNombre() + " Son: \n" +
         "Frecuencia nombre: " + frecuencias.getFrecuenciaNombre() + " de un total de : " +
         frecuencias.getTotalRegistrosNombre() + " nombres \n" +
         "Frecuencia apellidos: " + frecuencias.getFrecuenciaApellidos() + " de un total de : " +
         frecuencias.getTotalRegistrosApellidos() + " apellidos \n");
+
+      /*
+      cálculo de la probabilidad de nombre
+      */
+      probabilidadNombre = calculoNaiveBayes.calcularNaiveBayes(frecuencias.getFrecuenciaNombre().doubleValue(),
+        frecuencias.getTotalRegistrosNombre().doubleValue());
+      log.registrarMensaje(nombreClaseMetodo, "Probabilidad de Nombre : " + probabilidadNombre);
+
+      /*
+      cálculo de la probabilidad de apellido
+      */
+      probabilidadApellido = calculoNaiveBayes.calcularNaiveBayes(frecuencias.getFrecuenciaApellidos().doubleValue(),
+        frecuencias.getTotalRegistrosApellidos().doubleValue());
+      log.registrarMensaje(nombreClaseMetodo, "Probabilidad de Apellido : " + probabilidadApellido);
+
+      respuesta = comparaNaiveBayes.compararResultadosNaiveBayes(peticion.getNombre(),
+        peticion.getTipoNombre().toUpperCase().trim(),
+        probabilidadNombre, probabilidadApellido);
     }
     catch (Exception excepcion) {
       log.registrarExcepcion(excepcion,"Error de exepcion");
-      log.registrarMensaje(NOMBRE_CLASE, excepcion.getMessage());
-      throw new ErrorInternoException(request.getNombre(), request.getTipoNombre(), "Error de Excepcion: "
+      log.registrarMensaje(nombreClaseMetodo, excepcion.getMessage());
+      throw new ErrorInternoException(peticion.getNombre(), peticion.getTipoNombre(), "Error de Excepcion: "
         + excepcion.getMessage(), Constantes.VALOR_EXEPCION,Constantes.ZERO_BY_DEFAULT,Constantes.ZERO_BY_DEFAULT);
     }
-
-    /*
-    cálculo de la probabilidad de nombre
-     */
-    double probabilidadNombre = calculoNaiveBayes(frecuencias.getFrecuenciaNombre().doubleValue(),
-      frecuencias.getTotalRegistrosNombre().doubleValue());
-    log.registrarMensaje(NOMBRE_CLASE, "Probabilidad de Nombre : " + probabilidadNombre);
-
-    /*
-    cálculo de la probabilidad de apellido
-     */
-    double probabilidadApellido = calculoNaiveBayes(frecuencias.getFrecuenciaApellidos().doubleValue(),
-      frecuencias.getTotalRegistrosApellidos().doubleValue());
-    log.registrarMensaje(NOMBRE_CLASE, "Probabilidad de Apellido : " + probabilidadApellido);
-
-    /*
-    creación del objeto respuesta
-     */
-    log.terminarTiempoMetodo(NOMBRE_CLASE);
-    log.obtenerTiempoTotal(NOMBRE_CLASE);
-    return comparaNaiveBayes(request.getNombre(), request.getTipoNombre().toUpperCase().trim()
-      , probabilidadNombre, probabilidadApellido, log);
-
+    finally {
+      log.terminarTiempoMetodo(nombreClaseMetodo);
+    }
+    return respuesta;
   }
-
-  /**
-   * <b>buscarFrecuencias</b>
-   * @descripcion: obtiene las frecuencias de un nombre a través de frecuencias dao
-   * @autor: Francisco Javier Cortes Torres, Desarrollador
-   * @params: String
-   * @ultimaModificacion: 07/10/22
-   */
-
-  private ModeloRespuestaFrecuencias buscarFrecuencias(String nombre) throws IOException {
-    try {
-      return daoFrecuencias.obtenerFrecuencias(nombre);
-    } catch (InvalidAlgorithmParameterException e) {
-      throw new RuntimeException(e);
-    } catch (NoSuchPaddingException e) {
-      throw new RuntimeException(e);
-    } catch (IllegalBlockSizeException e) {
-      throw new RuntimeException(e);
-    } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException(e);
-    } catch (BadPaddingException e) {
-      throw new RuntimeException(e);
-    } catch (InvalidKeyException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  /**
-   * <b>calculoNaiveBayes</b>
-   * @descripcion: calculo de nb si la frecuencia es 0 la probabilidad sera de 0
-   * @autor: Francisco Javier Cortes Torres, Desarrollador
-   *
-   * @ultimaModificacion: 09/06/22
-   */
-
-  private double calculoNaiveBayes (Double frec, Double total){
-    double naiveBayes;
-    if(frec > 0 && total > 0) {
-      naiveBayes = (frec/total) * Constantes.CONSTANTE_NB;
-    }
-    else {
-      naiveBayes = 0;
-    }
-    return naiveBayes;
-  }
-
-  /**
-   * <b>comparaNaiveBayes</b>
-   * @descripcion: realiza la comparacion de probabilidades y asigna tipoCadena y mensaje salida
-   * @autor: Francisco Javier Cortes Torres, Desarrollador
-   *
-   * @ultimaModificacion: 09/06/22
-   */
-
-  private DtoRespuestaNaiveBayes comparaNaiveBayes(String nomAp, String tipoNombre,
-                                                   double probNbNom, double probNbAp, LogServicio log){
-    String nuevoTipoNombre;
-    String mensaje;
-    int valor;
-
-    if(probNbNom > probNbAp){
-      log.registrarMensaje(NOMBRE_CLASE, "Probabilidad de nombre mas alta");
-      nuevoTipoNombre = Constantes.ES_NOMBRE ;
-
-      if( tipoNombre.equals(nuevoTipoNombre) ){
-        mensaje = Constantes.MENSAJE_CLASIFICACION_CORRECTA;
-        valor = Constantes.VALOR_CLASIFICACION_CORRECTA;
-      }
-      else if (tipoNombre.equals(Constantes.ES_APELLIDO)){
-        mensaje = Constantes.PROBABLE_NOMBRE;
-        valor = Constantes.VALOR_CLASIFICACION_INCORRECTA;
-      }
-      else {
-        mensaje = Constantes.MENSAJE_ERROR_CLASIFICACION;
-        valor = Constantes.VALOR_EXEPCION;
-      }
-
-    }
-    else if (probNbAp > probNbNom){
-      log.registrarMensaje(NOMBRE_CLASE, "Probabilidad de apellido mas alta");
-      nuevoTipoNombre = Constantes.ES_APELLIDO;
-
-      if(tipoNombre.equals(nuevoTipoNombre)){
-        mensaje = Constantes.MENSAJE_CLASIFICACION_CORRECTA;
-        valor = Constantes.VALOR_CLASIFICACION_CORRECTA;
-      }
-      else if (tipoNombre.equals(Constantes.ES_NOMBRE)){
-        mensaje = Constantes.PROBABLE_APELLIDO;
-        valor = Constantes.VALOR_CLASIFICACION_INCORRECTA;
-      }
-      else{
-        mensaje = Constantes.MENSAJE_ERROR_CLASIFICACION;//etiqueta erroneo
-        valor = Constantes.VALOR_EXEPCION;
-      }
-    }
-    else {
-      nuevoTipoNombre = tipoNombre;
-      mensaje = Constantes.MENSAJE_ERROR_CLASIFICACION;//no se encuentra
-      valor = Constantes.VALOR_EXEPCION;
-    }
-
-    return new DtoRespuestaNaiveBayes(nomAp,nuevoTipoNombre,
-      mensaje,valor,probNbNom,probNbAp);
-  }
-
 }
