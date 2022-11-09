@@ -18,11 +18,6 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 @JsonPropertyOrder({"nombre","tipoNombre","mensaje","valor"})
 public class DtoRespuestaNaiveBayes {
   @Schema(
-    example = "LEONARDO",
-    description = "Nombre o apellido de una persona"
-  )
-  private String nombre;
-  @Schema(
     example = "NOMBRE",
     description = "Clasificacion del nombre dependiendo de Naive Bayes"
   )

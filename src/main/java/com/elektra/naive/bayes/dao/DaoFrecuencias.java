@@ -88,7 +88,7 @@ public class DaoFrecuencias {
       modeloRespuestaFrecuencias.setTotalRegistrosNombre(Constantes.BIG_ZERO_BY_DEFAULT);
       modeloRespuestaFrecuencias.setFrecuenciaApellidos(Constantes.BIG_ZERO_BY_DEFAULT);
       modeloRespuestaFrecuencias.setTotalRegistrosApellidos(Constantes.BIG_ZERO_BY_DEFAULT);
-      modeloRespuestaFrecuencias.setMensaje("No Encotrado");
+      modeloRespuestaFrecuencias.setMensaje(Constantes.CODIGO_SIN_FRECUENCIAS + " " + Constantes.MENSAJE_ERROR_CLASIFICACION);
     }
     /*
     si no obtiene el objeto inputStream para respuesta positivas

@@ -6,6 +6,7 @@ import com.elektra.naive.bayes.dto.DtoPeticionNaiveBayes;
 import com.elektra.naive.bayes.dto.DtoRespuestaNaiveBayes;
 import com.elektra.naive.bayes.exception.ErrorInternoException;
 import com.elektra.naive.bayes.modelos.ModeloRespuestaFrecuencias;
+import com.elektra.naive.bayes.modelos.Resultado;
 import com.elektra.naive.bayes.util.CalculoNaiveBayes;
 import com.elektra.naive.bayes.util.ComparaNaiveBayes;
 import com.elektra.naive.bayes.util.Constantes;
@@ -44,6 +45,8 @@ public class ServicioNaiveBayes {
     String nombreClaseMetodo = "ServicioNaiveBayes-naiveBayes";
     LogServicio log = new LogServicio();
     log.iniciarTiempoMetodo(nombreClaseMetodo, Constantes.NOMBRE_MS);
+    Resultado resultado = new Resultado(uid, Constantes.CODIGO_ERROR_GENERAL,
+      Constantes.MENSAJE_CODIGO_500);
     /*
     inicio de modelo
     */
@@ -77,8 +80,7 @@ public class ServicioNaiveBayes {
         frecuencias.getTotalRegistrosApellidos().doubleValue());
       log.registrarMensaje(nombreClaseMetodo, "Probabilidad de Apellido : " + probabilidadApellido);
 
-      respuesta = comparaNaiveBayes.compararResultadosNaiveBayes(peticion.getNombre(),
-        peticion.getTipoNombre().toUpperCase().trim(),
+      respuesta = comparaNaiveBayes.compararResultadosNaiveBayes(peticion.getTipoNombre().toUpperCase().trim(),
         probabilidadNombre, probabilidadApellido);
     }
     catch (Exception excepcion) {
