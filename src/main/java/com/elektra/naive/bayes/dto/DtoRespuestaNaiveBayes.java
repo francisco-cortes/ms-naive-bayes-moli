@@ -19,17 +19,17 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 public class DtoRespuestaNaiveBayes {
   @Schema(
     example = "NOMBRE",
-    description = "Clasificacion del nombre dependiendo de Naive Bayes"
+    description = "Classification del nombre dependiendo de Naive Bayes"
   )
   private String tipoNombre;
   @Schema(
     example = "CLASIFICACION CORRECTA",
-    description = "Mensaje de expecion, o de operacion"
+    description = "Mensaje de operación"
   )
   private String mensaje;
   @Schema(
     example = "1",
-    description = "valopr correspondiente al cambio o error"
+    description = "valor correspondiente al cambio o error"
   )
   private int valor;
 

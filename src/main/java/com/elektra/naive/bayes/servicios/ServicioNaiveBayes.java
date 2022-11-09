@@ -10,6 +10,8 @@ import com.elektra.naive.bayes.modelos.Resultado;
 import com.elektra.naive.bayes.util.CalculoNaiveBayes;
 import com.elektra.naive.bayes.util.ComparaNaiveBayes;
 import com.elektra.naive.bayes.util.Constantes;
+import com.elektra.naive.bayes.util.UtilidadGenerarExcepcion;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -33,6 +35,9 @@ public class ServicioNaiveBayes {
 
   @Inject
   private ComparaNaiveBayes comparaNaiveBayes;
+
+  @Inject
+  private UtilidadGenerarExcepcion utilidadGenerarExcepcion;
   /**
    * <b>naiveBayes</b>
    * @descripcion: Método principal
@@ -51,7 +56,7 @@ public class ServicioNaiveBayes {
     inicio de modelo
     */
     ModeloRespuestaFrecuencias frecuencias;
-    DtoRespuestaNaiveBayes respuesta;
+    DtoRespuestaNaiveBayes respuesta = new DtoRespuestaNaiveBayes();
     double probabilidadNombre = 0;
     double probabilidadApellido = 0;
     try {
@@ -86,8 +91,8 @@ public class ServicioNaiveBayes {
     catch (Exception excepcion) {
       log.registrarExcepcion(excepcion,"Error de exepcion");
       log.registrarMensaje(nombreClaseMetodo, excepcion.getMessage());
-      throw new ErrorInternoException(peticion.getNombre(), peticion.getTipoNombre(), "Error de Excepcion: "
-        + excepcion.getMessage(), Constantes.VALOR_EXEPCION,Constantes.ZERO_BY_DEFAULT,Constantes.ZERO_BY_DEFAULT);
+      utilidadGenerarExcepcion.generarExcepcion(Constantes.CODIGO_HTTP_500, Constantes.CODIGO_HTTP_500,
+        Constantes.MENSAJE_CODIGO_500 + " " + excepcion.getMessage() ,uid);
     }
     finally {
       log.terminarTiempoMetodo(nombreClaseMetodo);
