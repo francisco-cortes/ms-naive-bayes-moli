@@ -4,7 +4,6 @@ import com.baz.log.LogServicio;
 import com.elektra.naive.bayes.dao.DaoFrecuencias;
 import com.elektra.naive.bayes.dto.DtoPeticionNaiveBayes;
 import com.elektra.naive.bayes.dto.DtoRespuestaNaiveBayes;
-import com.elektra.naive.bayes.exception.ErrorInternoException;
 import com.elektra.naive.bayes.modelos.ModeloRespuestaFrecuencias;
 import com.elektra.naive.bayes.modelos.Resultado;
 import com.elektra.naive.bayes.util.CalculoNaiveBayes;

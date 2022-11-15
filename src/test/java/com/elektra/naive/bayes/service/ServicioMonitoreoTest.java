@@ -17,7 +17,7 @@ public class ServicioMonitoreoTest {
   @Inject
   private ServicioMonitoreo servicioMonitoreo;
 
-  @DisplayName("Prueba Unitaria sobre monitoreo")
+  @DisplayName("PruebaDaoFrecuencias Unitaria sobre monitoreo")
   @Test
   public void testMonitoreo(){
     DtoRespuestaEstado dtoRespuestaEstado = servicioMonitoreo.generarUid();

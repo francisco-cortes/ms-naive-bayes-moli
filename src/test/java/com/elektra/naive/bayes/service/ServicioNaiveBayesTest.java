@@ -17,7 +17,7 @@ public class ServicioNaiveBayesTest {
   @Inject
   private ServicioNaiveBayes servicioNaiveBayes;
 
-  @DisplayName("Prueba Unitaria sobre naive bayes")
+  @DisplayName("PruebaDaoFrecuencias Unitaria sobre naive bayes")
   @Test
   public void testCalculoNaiveBayesNombre(){
     /*
@@ -32,7 +32,7 @@ public class ServicioNaiveBayesTest {
     assertEquals(nb.getTipoNombre(),tipoNombreEsperado);
   }
 
-  @DisplayName("Prueba Unitaria sobre naive bayes apellido")
+  @DisplayName("PruebaDaoFrecuencias Unitaria sobre naive bayes apellido")
   @Test
   public void testCalculoNaiveBayesApellido(){
     /*

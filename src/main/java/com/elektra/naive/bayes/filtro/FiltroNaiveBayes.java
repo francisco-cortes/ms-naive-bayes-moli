@@ -42,7 +42,7 @@ public class FiltroNaiveBayes implements ContainerRequestFilter {
     System.out.println("VALOR DE uid "+ uid);
     try {
 
-      if (!"/datos/naive-bayes/calcula-nb".equals(requestContext.getUriInfo().getPath())) {
+      if (!"/datos/naive-bayes/calcula-naive-bayes".equals(requestContext.getUriInfo().getPath())) {
         return;
       }
 
