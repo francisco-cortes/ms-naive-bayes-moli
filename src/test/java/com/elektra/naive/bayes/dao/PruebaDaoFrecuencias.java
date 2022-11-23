@@ -20,6 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @QuarkusTest
 public class PruebaDaoFrecuencias {
+
+  private static final String UID = "UID123456789012";
+  private static final String TOKEN = "022DEE73F8528EA4445B133DDB5B224848B2258B";
   @Inject
   private DaoFrecuencias daoFrecuencias;
 
@@ -30,7 +33,7 @@ public class PruebaDaoFrecuencias {
 
     LogServicio logServicio = new LogServicio();
     ModeloRespuestaFrecuencias frecuencias = daoFrecuencias.obtenerFrecuencias(
-      "",logServicio);
+      "",logServicio, UID, TOKEN);
     assertEquals(frecuencias.getMensaje(), "No se encontro el nombre en la Base de datos");
   }
 
@@ -41,19 +44,20 @@ public class PruebaDaoFrecuencias {
 
     LogServicio logServicio = new LogServicio();
     ModeloRespuestaFrecuencias frecuencias = daoFrecuencias.obtenerFrecuencias(
-      "LEONARDO",logServicio);
+      "LEONARDO",logServicio, UID, TOKEN);
     assertEquals(frecuencias.getMensaje(), Constantes.MENSAJE_EXITO);
   }
 
   @DisplayName("Frecuencias null")
   @Test
-  public void probarObtenerFrecueciasAAA() throws InvalidAlgorithmParameterException, NoSuchPaddingException,
+  public void probarObtenerFrecueciasError() throws InvalidAlgorithmParameterException, NoSuchPaddingException,
     IllegalBlockSizeException, IOException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
 
     LogServicio logServicio = new LogServicio();
     ModeloRespuestaFrecuencias frecuencias = daoFrecuencias.obtenerFrecuencias(
-      null,logServicio);
-    assertEquals(frecuencias.getMensaje(), Constantes.CODIGO_SIN_FRECUENCIAS + " " + Constantes.MENSAJE_ERROR_CLASIFICACION);
+      "test",logServicio, "UID", TOKEN);
+    assertEquals(frecuencias.getMensaje(), Constantes.CODIGO_SIN_FRECUENCIAS + " "
+      + Constantes.MENSAJE_ERROR_CLASIFICACION);
   }
 
 }

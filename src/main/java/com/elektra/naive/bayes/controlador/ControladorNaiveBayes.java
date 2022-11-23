@@ -91,11 +91,12 @@ public class ControladorNaiveBayes {
     produces = MediaType.APPLICATION_JSON_VALUE,
     consumes = MediaType.APPLICATION_JSON_VALUE)
   public Response naiveBayes(@RequestHeader(name = "uid", required = Constantes.ES_REQUERIDO) String uid,
+                             @RequestHeader(name = "token", required = Constantes.ES_REQUERIDO) String token,
     @RequestBody DtoPeticionNaiveBayes request){
     /*
     modelo de datos con la salida
      */
-    DtoRespuestaNaiveBayes respuestaNb = servicioNaiveBayes.naiveBayes(request,uid);
+    DtoRespuestaNaiveBayes respuestaNb = servicioNaiveBayes.naiveBayes(request,uid,token);
     /*
     retorna el modelo como entidad para parseo como Json
      */

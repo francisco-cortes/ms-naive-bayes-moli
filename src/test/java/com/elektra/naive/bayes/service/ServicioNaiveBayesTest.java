@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
 
+import java.rmi.server.UID;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @QuarkusTest
@@ -16,10 +18,12 @@ public class ServicioNaiveBayesTest {
 
   @Inject
   private ServicioNaiveBayes servicioNaiveBayes;
-
+  private static final String UID = "UID123456789012";
+  private static final String TOKEN = "022DEE73F8528EA4445B133DDB5B224848B2258B";
   @DisplayName("PruebaDaoFrecuencias Unitaria sobre naive bayes")
   @Test
   public void testCalculoNaiveBayesNombre(){
+
     /*
     Cambiar docker.internal.host por localhost
      */
@@ -27,7 +31,7 @@ public class ServicioNaiveBayesTest {
     DtoPeticionNaiveBayes request = new DtoPeticionNaiveBayes();
     request.setNombre("LEONARDO");
     request.setTipoNombre("APELLIDO");
-    DtoRespuestaNaiveBayes nb = servicioNaiveBayes.naiveBayes(request,"TESTUID");
+    DtoRespuestaNaiveBayes nb = servicioNaiveBayes.naiveBayes(request,UID, TOKEN);
 
     assertEquals(nb.getTipoNombre(),tipoNombreEsperado);
   }
@@ -42,7 +46,7 @@ public class ServicioNaiveBayesTest {
     DtoPeticionNaiveBayes request = new DtoPeticionNaiveBayes();
     request.setNombre("VAZQUEZ");
     request.setTipoNombre("NOMBRE");
-    DtoRespuestaNaiveBayes nb = servicioNaiveBayes.naiveBayes(request,"TESTUID");
+    DtoRespuestaNaiveBayes nb = servicioNaiveBayes.naiveBayes(request, UID,TOKEN);
 
     assertEquals(nb.getTipoNombre(),tipoNombreEsperado);
   }

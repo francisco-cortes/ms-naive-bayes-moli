@@ -53,7 +53,6 @@ public class InterceptorNaiveBayes implements ReaderInterceptor {
       if("/datos/naive-bayes/calcula-naive-bayes".equals(uri.getPath())){
         request = (DtoPeticionNaiveBayes) contexto.proceed();
         validarPeticion(request, resultado);
-        System.out.println("RESULTADO INTERCEPTOR" + resultado.getCodigo());
 
         if (resultado.getCodigo().equals(Constantes.CODIGO_EXITO)) {
           return request;
@@ -100,9 +99,6 @@ public class InterceptorNaiveBayes implements ReaderInterceptor {
 
     CifradorAes cifrador = new CifradorAes(true);
     cifrador.desencriptarObjeto(peticion, resultado);
-    System.out.println("RESULTADO DESENCRIPCION INTERCEPTOR: " + resultado.getCodigo());
-    System.out.println("MENSAJE DESENCRIPCION INTERCEPTOR: " + resultado.getMensaje());
-    //System.out.println("DATO DESENCRIPTADO: " + request.getNombres()[0]);
     if (resultado.getCodigo().equals(Constantes.CODIGO_EXITO)) {
       ValidacionObjeto validador = new ValidacionObjeto();
       validador.validarDto(peticion, resultado);

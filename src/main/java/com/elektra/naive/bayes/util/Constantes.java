@@ -35,7 +35,6 @@ public class Constantes {
   public static final int CONSTANTE_NB = 10;
   public static final int TIME_OUT = 32000;
   public static final String GET_METHOD = "GET";
-  public static final int OK_HTTP_LIMIT = 299;
   public static final int VALOR_EXEPCION = -1;
   public static final int VALOR_CLASIFICACION_CORRECTA = 1;
   public static final int VALOR_CLASIFICACION_INCORRECTA = 0;
@@ -55,7 +54,7 @@ public class Constantes {
   public static final int LONGITUD_MAX_ENTRADA = 10;
 
   public static final String ESTADO_OK = "OK";
-  public static final String CODIGO_EXITO = "E";
+  public static final String CODIGO_EXITO = "C00000";
   public static final String MENSAJE_EXITO = "Operacion exitosa.";
 
   public static final boolean NO_REQUERIDO = false;

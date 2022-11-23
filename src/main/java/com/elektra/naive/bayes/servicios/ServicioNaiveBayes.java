@@ -45,7 +45,7 @@ public class ServicioNaiveBayes {
    * @ultimaModificacion: 07/10/22
    */
 
-  public DtoRespuestaNaiveBayes naiveBayes(DtoPeticionNaiveBayes peticion, String uid){
+  public DtoRespuestaNaiveBayes naiveBayes(DtoPeticionNaiveBayes peticion, String uid, String token){
     String nombreClaseMetodo = "ServicioNaiveBayes-naiveBayes";
     LogServicio log = new LogServicio();
     log.iniciarTiempoMetodo(nombreClaseMetodo, Constantes.NOMBRE_MS);
@@ -62,7 +62,7 @@ public class ServicioNaiveBayes {
       /*
       obtiene las frecuencias
       */
-      frecuencias = daoFrecuencias.obtenerFrecuencias(peticion.getNombre(), log);
+      frecuencias = daoFrecuencias.obtenerFrecuencias(peticion.getNombre(), log, uid, token);
 
       log.registrarMensaje(nombreClaseMetodo, "las frecuencias para : " + peticion.getNombre() + " Son: \n" +
         "Frecuencia nombre: " + frecuencias.getFrecuenciaNombre() + " de un total de : " +

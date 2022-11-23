@@ -1,7 +1,5 @@
 package com.elektra.naive.bayes.controlador;
 
-import com.elektra.naive.bayes.dto.DtoPeticionNaiveBayes;
-import com.elektra.naive.bayes.util.Constantes;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,7 +9,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 @QuarkusTest
 public class PruebaDaoFrecuenciasControladorMonitoreo {
-  @DisplayName("Preuba desde el endpoint principal calcificacion probable nombre")
+  @DisplayName("Preuba desde el endpoint principal clasificación probable nombre")
   @Test
   public void PruebaNaiveBayesIncorrectaNombre(){
     given()
